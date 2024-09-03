@@ -1,0 +1,6 @@
+services:
+  dht-bootstrap:
+    build: .
+    ports:
+      - 6882:6881/udp
+    command: ["0.0.0.0"]

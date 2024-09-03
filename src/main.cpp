@@ -81,7 +81,7 @@ using time_point = steady_clock::time_point;
 
 using node_id_type = std::array<char, 20>;
 
-const int print_stats_interval = 60;
+const int print_stats_interval = 15;
 const int rotate_secrets_interval = 600;
 int nodes_in_response = 16;
 int node_buffer_size = 10000000;
@@ -436,6 +436,7 @@ bool is_valid_ep(udp::endpoint const& ep)
 	{
 		address_v4 const& addr = ep.address().to_v4();
 		unsigned long ip = addr.to_ulong();
+		printf("address: %s\n", addr.to_string().c_str());
 		if (ip == 0 // 0.0.0.0
 			|| (ip & 0xff000000) == 0x0a000000 // 10.x.x.x
 			|| (ip & 0xfff00000) == 0xac100000 // 172.16.x.x
@@ -813,11 +814,11 @@ struct router_thread
 		using libtorrent::bdecode_node;
 		using libtorrent::bdecode;
 
-		if (!is_valid_ep(sock.ep))
-		{
-			++invalid_src_address;
-			return;
-		}
+		// if (!is_valid_ep(sock.ep))
+		// {
+		// 	++invalid_src_address;
+		// 	return;
+		// }
 
 		bool const is_v4 = sock.ep.protocol() == udp::v4();
 
@@ -1456,4 +1457,3 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
-
